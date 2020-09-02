@@ -7,6 +7,7 @@ This is the TensorFlow implementation for our paper [Exploration via Hindsight G
 1. Python 3.6.9
 2. MuJoCo == 1.50.1.68
 3. TensorFlow >= 1.8.0
+4. BeautifulTable == 0.7.0
 
 ## Running Commands
 
