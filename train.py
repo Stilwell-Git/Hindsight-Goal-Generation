@@ -25,7 +25,7 @@ if __name__=='__main__':
 
 	args.logger.summary_setup()
 
-	for epoch in range(args.epoches):
+	for epoch in range(args.epochs):
 		for cycle in range(args.cycles):
 			args.logger.tabular_clear()
 			args.logger.summary_clear()
@@ -34,7 +34,7 @@ if __name__=='__main__':
 			learner.learn(args, env, env_test, agent, buffer)
 			tester.cycle_summary()
 
-			args.logger.add_record('Epoch', str(epoch)+'/'+str(args.epoches))
+			args.logger.add_record('Epoch', str(epoch)+'/'+str(args.epochs))
 			args.logger.add_record('Cycle', str(cycle)+'/'+str(args.cycles))
 			args.logger.add_record('Episodes', buffer.counter)
 			args.logger.add_record('Timesteps', buffer.steps_counter)

@@ -35,7 +35,7 @@ def get_args():
 	parser.add_argument('--act_l2', help='quadratic penalty on actions', type=np.float32, default=1.0)
 	parser.add_argument('--polyak', help='interpolation factor in polyak averaging for DDPG', type=np.float32, default=0.95)
 
-	parser.add_argument('--epoches', help='number of epoches', type=np.int32, default=20)
+	parser.add_argument('--epochs', help='number of epochs', type=np.int32, default=20)
 	parser.add_argument('--cycles', help='number of cycles per epoch', type=np.int32, default=20)
 	parser.add_argument('--episodes', help='number of episodes per cycle', type=np.int32, default=50)
 	parser.add_argument('--timesteps', help='number of timesteps per episode', type=np.int32, default=(50 if args.env[:5]=='Fetch' else 100))
