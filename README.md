@@ -8,6 +8,7 @@ This is the TensorFlow implementation for our paper [Exploration via Hindsight G
 2. MuJoCo == 1.50.1.68
 3. TensorFlow >= 1.8.0
 4. BeautifulTable == 0.7.0
+5. gym < 0.22
 
 ## Running Commands
 
@@ -18,4 +19,6 @@ python train.py --tag='HGG_fetch_push' --env=FetchPush-v1
 python train.py --tag='HGG_fetch_pick' --env=FetchPickAndPlace-v1
 python train.py --tag='HGG_hand_block' --env=HandManipulateBlock-v0
 python train.py --tag='HGG_hand_egg' --env=HandManipulateEgg-v0
+
+python train.py --tag='HGG_fetch_push_with_obstacle' --env=FetchPush-v1 --goal=obstacle
 ```

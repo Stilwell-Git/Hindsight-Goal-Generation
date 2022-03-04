@@ -1,7 +1,7 @@
 import copy
 import numpy as np
 from envs import make_env
-from envs.utils import goal_distance
+from envs.utils import get_goal_distance
 from algorithm.replay_buffer import Trajectory, goal_concat
 from utils.gcc_utils import gcc_load_lib, c_double, c_int
 
@@ -40,6 +40,7 @@ class MatchSampler:
 		self.env_test = make_env(args)
 		self.dim = np.prod(self.env.reset()['achieved_goal'].shape)
 		self.delta = self.env.distance_threshold
+		self.goal_distance = get_goal_distance(args)
 
 		self.length = args.episodes
 		init_goal = self.env.reset()['achieved_goal'].copy()
@@ -53,7 +54,7 @@ class MatchSampler:
 		self.max_dis = 0
 		for i in range(1000):
 			obs = self.env.reset()
-			dis = goal_distance(obs['achieved_goal'],obs['desired_goal'])
+			dis = self.goal_distance(obs['achieved_goal'],obs['desired_goal'])
 			if dis>self.max_dis: self.max_dis = dis
 
 	def add_noise(self, pre_goal, noise_std=None):
@@ -113,7 +114,7 @@ class MatchSampler:
 		for i in range(len(achieved_pool)):
 			for j in range(len(desired_goals)):
 				res = np.sqrt(np.sum(np.square(achieved_pool[i]-desired_goals[j]),axis=1)) - achieved_value[i]/(self.args.hgg_L/self.max_dis/(1-self.args.gamma))
-				match_dis = np.min(res)+goal_distance(achieved_pool[i][0], initial_goals[j])*self.args.hgg_c
+				match_dis = np.min(res)+self.goal_distance(achieved_pool[i][0], initial_goals[j])*self.args.hgg_c
 				match_idx = np.argmin(res)
 
 				edge = self.match_lib.add(graph_id['achieved'][i], graph_id['desired'][j], 1, c_double(match_dis))
@@ -138,6 +139,7 @@ class HGGLearner:
 		self.args = args
 		self.env = make_env(args)
 		self.env_test = make_env(args)
+		self.goal_distance = get_goal_distance(args)
 
 		self.env_List = []
 		for i in range(args.episodes):
@@ -188,7 +190,7 @@ class HGGLearner:
 
 		selection_trajectory_idx = {}
 		for i in range(self.args.episodes):
-			if goal_distance(achieved_trajectories[i][0], achieved_trajectories[i][-1])>0.01:
+			if self.goal_distance(achieved_trajectories[i][0], achieved_trajectories[i][-1])>0.01:
 				selection_trajectory_idx[i] = True
 		for idx in selection_trajectory_idx.keys():
 			self.achieved_trajectory_pool.insert(achieved_trajectories[idx].copy(), achieved_init_states[idx].copy())
