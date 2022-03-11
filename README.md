@@ -1,6 +1,6 @@
-# Exploration via Hindsight Goal Generation
+# Hindsight Goal Generation (HGG)
 
-This is the TensorFlow implementation for our paper [Exploration via Hindsight Goal Generation](http://arxiv.org/abs/1906.04279) accepted by NeurIPS 2019.
+This is a TensorFlow implementation for our paper [Exploration via Hindsight Goal Generation](http://arxiv.org/abs/1906.04279) accepted by NeurIPS 2019.
 
 
 ## Requirements
